@@ -23,6 +23,27 @@ The key lives in React state for the tab only. It is never written to
 `localStorage` and never committed. Nothing else is persisted either — reloading
 the page gives you a clean room.
 
+## Deploying
+
+The app is a static SPA with no backend, and Anthropic's API sends
+`access-control-allow-origin: *`, so it runs from any static host.
+
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) publishes to GitHub
+Pages on every push to `main` — enable it under Settings → Pages → Source →
+GitHub Actions. Pages serves a project site from `/<repo>/`, which is why
+`vite.config.js` defaults the build to `base: "/npchat/"`.
+
+Hosts that serve from a domain root (Cloudflare Pages, Netlify, Vercel, Surge)
+need the root instead:
+
+```bash
+BASE_PATH=/ npm run build
+```
+
+Note that a GitHub Pages site is public on the free plan even when the
+repository is private. Whatever the host, never hardcode an API key into the
+build — the key is entered per visitor and kept in memory only.
+
 ## Language
 
 The dialogue works in any language Claude speaks, Ukrainian included. Two ways
