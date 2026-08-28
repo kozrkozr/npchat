@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+/*
+  DESIGN DIRECTION — "Session Zero": a game master's screen.
+  Two-tone split. Settings live in a deep plum binder panel (the character
+  sheets); the transcript sits on cool slate paper (the dialogue log).
+  Type is the IBM Plex superfamily: Plex Mono carries the utility layer
+  (nameplates, traits, stat chips, round counters), Plex Sans carries the
+  human layer (message bodies). Deliberately not near-black + acid accent,
+  and deliberately not cream + serif + terracotta.
+*/
+@theme {
+  --color-paper: #e4e7ec; /* app ground, cool slate */
+  --color-log: #f8f9fb; /* message + card surface */
+  --color-ink: #191d2b; /* primary text */
+  --color-muted: #666e82; /* secondary text */
+  --color-rule: #c9cfda; /* hairlines */
+  --color-panel: #2a2440; /* GM screen, deep plum */
+  --color-panel2: #372f52; /* raised plum */
+  --color-brass: #a8813c; /* accent: live state, counters */
+  --color-alert: #a33a3a; /* system errors */
+
+  --font-display: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+  }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Visible keyboard focus everywhere, on both grounds. */
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+}
+
+@utility label-xs {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@keyframes npc-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.22;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+@keyframes npc-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.npc-dot {
+  animation: npc-dot 1.25s infinite ease-in-out;
+}
+.npc-enter {
+  animation: npc-enter 0.22s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .npc-dot,
+  .npc-enter {
+    animation: none !important;
+  }
+  .npc-dot {
+    opacity: 0.55;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
